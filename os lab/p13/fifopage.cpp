@@ -25,28 +25,28 @@ int main()
 {
 	int n, nf, i, pos = 0;
 
-	printf("enter number of frames\n");
-	scanf("%d", &nf);
+	printf("Enter number of frames\n");
+	cin>>nf;
 	int table_frame[nf];
 	for (i = 0; i < nf; i++)
 	{
 		table_frame[i] = -1;
 	}
 
-	printf("enter total number of page requests\n");
-	scanf("%d", &n);
+	printf("Enter total number of page requests\n");
+	cin>>n;
 	int pages[n];
-	printf("enter reference string\n");
+	printf("Enter reference string :\n");
 	for (i = 0; i < n; i++)
 	{
-		scanf("%d", &pages[i]);
+		cin>>pages[i];
 	}
 
 	int count1 = 0;
-	printf("position of frame table after each request\n\n");
+	printf("Position of frame table after each request\n\n");
 	for (i = 0; i < n; i++)
 	{
-		printf("page table after request from %2d || ", pages[i]);
+		printf("Page table after request from %2d || ", pages[i]);
 		if (!present(table_frame, nf, pages[i]))
 		{
 			table_frame[pos] = pages[i];
@@ -61,4 +61,7 @@ int main()
 		printf("\n");
 	}
 	printf("\nNumber of page faults : %d\n\n", count1);
+	float average=(float)count1/(float)n;
+	printf("\nAverage page faults : %.4f\n\n", average);
+    return 0;
 }
