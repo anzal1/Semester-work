@@ -31,15 +31,17 @@ string to_binary(int a)
 char to_char(string target)
 {
     int ascii_value = 97;
+    int index = 0;
+    reverse(target.begin(), target.end());
     for (int i = 0; i < target.length(); i++)
     {
         if (target[i] == 'b')
         {
-            ascii_value += pow(2, i);
+            index += pow(2, i);
         }
     }
-
-    return (char)ascii_value;
+    // cout << "place index : " << index << endl;
+    return (char)(ascii_value + index);
 }
 // Attack Now
 
@@ -113,18 +115,15 @@ string encrypt_baconian(string s, string intake)
             }
             else if (to_parse[i] == ' ')
             {
-                to_parse[i] = 'b';
+                to_parse[i] = '1';
             }
         }
-        else
+        else if (to_parse[i] == ' ' && encrypted[i] == 'a')
         {
-            if (to_parse[i] == ' ')
-            {
-                to_parse[i] == 'a';
-            }
+            to_parse[i] = '0';
         }
     }
-    cout << encrypted << endl;
+    // cout << encrypted << endl;
     return to_parse;
 }
 
@@ -134,20 +133,23 @@ string decrypt(string target)
     string to_ab = "";
     for (int i = 0; i < parsed.length(); i++)
     {
-        if (parsed[i] >= 'A' && parsed[i] <= 'Z')
+        if ((parsed[i] >= 'A' && parsed[i] <= 'Z') || parsed[i] == '1')
         {
             to_ab += 'b';
         }
-        else
+        else if ((parsed[i] >= 'a' && parsed[i] <= 'z') || parsed[i] == '0')
         {
             to_ab += 'a';
         }
     }
+    // cout<<"parsed : "<<to_ab<<endl;
     string changedstring = "";
     int start = 0;
-    while (start <= to_ab.length())
+    while (start < to_ab.length())
     {
-        changedstring += to_char(to_ab.substr(start, start + 5));
+
+        changedstring += to_char(to_ab.substr(start, 5));
+        // cout << changedstring << endl;
         start += 5;
     }
     return changedstring;
@@ -158,10 +160,21 @@ int main()
 
     // // aaaaabaabbbaabbaaaaaaaabaababaabbababbbababba
     string intake = "the quick brown fox jumps over the lazy dog and then it went on to attend a class";
-    cout << encrypt_baconian("Test", intake) << endl;
-    // cout<<to_binary("TEST")
-    // // cout<<to_char("aaaaa")<<endl;
-    // cout<<decrypt("the qUicKbBroWN fox jumPs OvEr THeblAZY DoGba")<<endl;
+    string encrypted_display = encrypt_baconian("Attack &now", intake);
+    string decrypted_final = decrypt(encrypted_display);
+    for (int i = 0; i < encrypted_display.length(); i++)
+    {
+        if (encrypted_display[i] == '0' || encrypted_display[i] == '1')
+        {
+            cout << " ";
+        }
+        else
+        {
+            cout << encrypted_display[i];
+        }
+    }
+    cout << "\n\n";
+    cout << decrypted_final << endl;
 
     return 0;
 }
