@@ -155,26 +155,93 @@ string decrypt(string target)
     return changedstring;
 }
 
+void menu()
+{
+    cout << endl;
+    cout << "1. Encrypt" << endl;
+    cout << "2. Decrypt" << endl;
+    cout << "3. Exit" << endl;
+}
+
 int main()
 {
 
-    // // aaaaabaabbbaabbaaaaaaaabaababaabbababbbababba
-    string intake = "the quick brown fox jumps over the lazy dog and then it went on to attend a class";
-    string encrypted_display = encrypt_baconian("Attack &now", intake);
-    string decrypted_final = decrypt(encrypted_display);
-    for (int i = 0; i < encrypted_display.length(); i++)
+    // aaaaabaabbbaabbaaaaaaaabaababaabbababbbababba
+    // string intake = "the quick brown fox jumps over the lazy dog and then it went on to attend a class";
+    // string encrypted_display = encrypt_baconian("Attack &now", intake);
+    // string decrypted_final = decrypt(encrypted_display);
+    // for (int i = 0; i < encrypted_display.length(); i++)
+    // {
+    //     if (encrypted_display[i] == '0' || encrypted_display[i] == '1')
+    //     {
+    //         cout << " ";
+    //     }
+    //     else
+    //     {
+    //         cout << encrypted_display[i];
+    //     }
+    // }
+    // cout << "\n\n";
+    // cout << decrypted_final << endl;
+    string to_be_decrypted="";
+    int choice;
+    while (true)
     {
-        if (encrypted_display[i] == '0' || encrypted_display[i] == '1')
+
+        menu();
+        cout << "\nEnter your choice : ";
+        cin >> choice;
+        cin.ignore();
+        if (choice == 1)
         {
-            cout << " ";
+            string s;
+            cout << "\nEnter the string to be encrypted : ";
+            getline(cin, s, '\n');
+            cout << "the input is : " << s << endl;
+            cout << "\nEnter the string to be used for encryption (Note : the length of this string should not be less than " << s.length() * 5 << ") : ";
+            string intake;
+            getline(cin, intake, '\n');
+            if (intake.length() < s.length() * 5)
+            {
+                cout << "\nThe length of the string to be used for encryption is less than the length of the string to be encrypted.\n";
+                continue;
+            }
+            cout << "the intake string is : " << intake << endl;
+            string encrypted = encrypt_baconian(s, intake);
+            cout << "\nThe encrypted string is : ";
+            to_be_decrypted = encrypted;
+            for (int i = 0; i < encrypted.length(); i++)
+            {
+                if (encrypted[i] == '0' || encrypted[i] == '1')
+                {
+                    cout << " ";
+                }
+                else
+                {
+                    cout << encrypted[i];
+                }
+            }
+            cout << endl;
+        }
+        else if (choice == 2)
+        {
+            if (to_be_decrypted == "")
+            {
+                cout << "\nNo string to be decrypted.\n";
+                continue;
+            }
+            string decrypted = decrypt(to_be_decrypted);
+            cout << "\nThe decrypted string is : " << decrypted << endl;
+        }
+        else if (choice == 3)
+        {
+            cout << "\nExiting..." << endl;
+            break;
         }
         else
         {
-            cout << encrypted_display[i];
+            cout << "\nInvalid Choice" << endl;
         }
     }
-    cout << "\n\n";
-    cout << decrypted_final << endl;
-
     return 0;
 }
