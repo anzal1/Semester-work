@@ -1,0 +1,36 @@
+const io = require("socket.io-client");
+const socket = io("http://localhost:3000");
+var nickname = null;
+console.log("Connecting to the server...");
+
+socket.on("connect", () => {
+  nickname = process.argv[2];
+  console.log("[INFO]: Welcome %s", nickname);
+});
+socket.on("disconnect", (reason) => {
+  console.log("[INFO]: Client disconnected, reason: %s", reason);
+});
+
+socket.on("join", (data) => {
+  console.log("[INFO]: %s has joined the chat", data.sender);
+});
+
+const readline = require("readline");
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+rl.on("line", (input) => {
+  if (true === input.startsWith("b;")) {
+    var str = input.slice(2);
+    socket.emit("broadcast", {
+      sender: nickname,
+      action: "broadcast",
+      msg: str,
+    });
+  }
+});
+
+socket.on("broadcast", (data) => {
+  console.log("%s", data.msg);
+});
