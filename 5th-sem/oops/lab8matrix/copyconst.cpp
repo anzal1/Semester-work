@@ -43,7 +43,7 @@ int main()
     c1.display();
     c2.display();
     c3.display();
-    c1 == c2;
+    c3 = c1 == c2;
     c1 == c3;
     return 0;
 }

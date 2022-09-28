@@ -69,44 +69,82 @@ public:
         }
         return temp;
     }
-    bool operator==(matrix m)
+
+    int operator==(matrix m)
     {
+        // return  -1 if matrix can neither be mulitplied nor added
+        //  return 0 if matrix can be added but not multiplied
+        //  return 1 if matrix can be multiplied but not added
+        //  return 2 if matrix can be multiplied and added
         if (row == m.row && col == m.col)
         {
-            return true;
+            if (col == m.row)
+            {
+                return 2;
+            }
+            else
+            {
+                return 0;
+            }
         }
+        else if (col == m.row)
+        {
+            return 1;
+        }
+
         else
         {
-            return false;
+            return -1;
         }
     }
 };
 
 int main()
 {
-    int r1, c1, r2, c2;
     cout << "Enter the number of rows and columns of first matrix" << endl;
+    int r1, c1;
     cin >> r1 >> c1;
     matrix m1(r1, c1);
-    cout << "Enter the elements of first matrix" << endl;
-    m1.getdata();
     cout << "Enter the number of rows and columns of second matrix" << endl;
+    int r2, c2;
     cin >> r2 >> c2;
     matrix m2(r2, c2);
+    cout << "Enter the elements of first matrix" << endl;
+    m1.getdata();
     cout << "Enter the elements of second matrix" << endl;
     m2.getdata();
-    if (m1 == m2)
+    cout << "The first matrix is" << endl;
+    m1.display();
+    cout << "The second matrix is" << endl;
+    m2.display();
+    int ch = m1 == m2;
+    if (ch == 0)
     {
-        cout << "Addition of two matrix is" << endl;
+        cout << "Addition is possible" << endl;
         matrix m3 = m1 + m2;
+        cout << "The sum of the two matrix is" << endl;
         m3.display();
-        cout << "Multiplication of two matrix is" << endl;
+    }
+    else if (ch == 1)
+    {
+        cout << "Multiplication is possible" << endl;
+        matrix m3 = m1 * m2;
+        cout << "The product of the two matrix is" << endl;
+        m3.display();
+    }
+    else if (ch == 2)
+    {
+        cout << "Addition and Multiplication is possible" << endl;
+        matrix m3 = m1 + m2;
+        cout << "The sum of the two matrix is" << endl;
+        m3.display();
         matrix m4 = m1 * m2;
+        cout << "The product of the two matrix is" << endl;
         m4.display();
     }
     else
     {
-        cout << "Matrix cannot be multiplied" << endl;
+        cout << "Addition and Multiplication is not possible" << endl;
     }
     return 0;
 }
