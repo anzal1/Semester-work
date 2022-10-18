@@ -2,6 +2,16 @@
     "files.associations": {
         "iostream": "cpp",
         "complex": "cpp",
-        "ostream": "cpp"
+        "ostream": "cpp",
+        "any": "cpp",
+        "bitset": "cpp",
+        "chrono": "cpp",
+        "future": "cpp",
+        "limits": "cpp",
+        "memory": "cpp",
+        "optional": "cpp",
+        "thread": "cpp",
+        "type_traits": "cpp",
+        "valarray": "cpp"
     }
 }
