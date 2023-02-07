@@ -3,9 +3,9 @@
 using namespace std;
 
 // take input from file
-void takeInput(ifstream &fin, int &n, int &m, int &q0, int &f, int &k, vector<int> &final, vector<vector<int>> &delta)
+void takeInput(ifstream &fin, int &n, int &m, int &q0, int &f, vector<int> &final, vector<vector<int>> &delta)
 {
-    fin >> n >> m >> q0 >> f >> k;
+    fin >> n >> m >> q0 >> f;
     final.resize(f);
     for (int i = 0; i < f; i++)
     {
@@ -29,8 +29,12 @@ bool checkString(string s, int n, int m, int q0, int f, int k, vector<int> final
     int q = q0;
     for (int i = 0; i < s.length(); i++)
     {
+        cout << q << " ";
         q = delta[q][s[i] - 'a'];
+        cout << "on " << s[i] << "->"
+             << " " << delta[q][s[i] - 'a'] << endl;
     }
+
     for (int i = 0; i < f; i++)
     {
         if (q == final[i])
@@ -47,9 +51,22 @@ int main()
     int n, m, q0, f, k;
     vector<int> final;
     vector<vector<int>> delta;
-    takeInput(fin, n, m, q0, f, k, final, delta);
+    takeInput(fin, n, m, q0, f, final, delta);
     cout << "Enter the string to check: ";
     string s;
+    if (s == "p")
+    {
+        for (int i = 0; i < final.size(); i++)
+        {
+            if (final[i] == q0)
+            {
+                cout << "Accepted" << endl;
+                return 0;
+            }
+        }
+        cout << "Not Accepted" << endl;
+        return 0;
+    }
     cin >> s;
     if (checkString(s, n, m, q0, f, k, final, delta))
     {

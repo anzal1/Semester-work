@@ -183,7 +183,7 @@ int main()
     // }
     // cout << "\n\n";
     // cout << decrypted_final << endl;
-    string to_be_decrypted="";
+    string to_be_decrypted = "";
     int choice;
     while (true)
     {
