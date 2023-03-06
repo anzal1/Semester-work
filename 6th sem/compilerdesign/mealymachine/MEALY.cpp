@@ -3,7 +3,7 @@
 #include <vector>
 using namespace std;
 
-int stoi(string line)
+int stoic(string line)
 {
 	int i = 0;
 	int num = 0;
@@ -24,7 +24,7 @@ int main()
 {
 	ifstream file;
 	string line;
-	file.open("MEALY.txt");
+	file.open("input.txt");
 	int i = 0;
 	int initial;
 	vector<vector<int>> MEALY;
@@ -33,7 +33,7 @@ int main()
 	{
 		if (i == 0)
 		{
-			initial = stoi(line, 0);
+			initial = stoic(line);
 		}
 		else
 		{
@@ -49,7 +49,7 @@ int main()
 				{
 					if (y % 2 == 0)
 					{
-						temp1.push_back(stoi(num,0));
+						temp1.push_back(stoic(num));
 						num = "";
 					}
 					else
@@ -82,7 +82,12 @@ xy:
 	int curr = initial;
 	cout << "Enter String : ";
 	string s;
-	cin >> s;
+	getline(cin, s);
+	if (s.length() == 0)
+	{
+		cout << "Retry, wrong or null input" << endl;
+		goto xy;
+	}
 	if (s == "-1")
 	{
 		cout << "Exiting";
@@ -94,13 +99,40 @@ xy:
 	{
 		string t = "";
 		t += s[k++];
-		if (OUT[curr][stoi(t,0)] != "-1")
+		if (OUT[curr][stoic(t)] != "-1")
 		{
-			output += OUT[curr][stoi(t,0)];
+			cout << "q" << curr << " -> ";
+			output += OUT[curr][stoic(t)];
+			cout << "on input " << t << " ";
+			cout << "gives output " << OUT[curr][stoic(t)];
 		}
-		curr = MEALY[curr][stoi(t,0)];
+		curr = MEALY[curr][stoic(t)];
+		if (curr != -1)
+			cout << " and goes to q" << curr << endl;
+		else
+		{
+			cout << "reaches end" << endl;
+		}
 	}
 
 	cout << "Output is : " << output << endl;
 	goto xy;
 }
+
+/*
+Input file contents:
+0
+1 A -1 -1
+-1 -1 2 AB
+3 B 11 B
+-1 -1 4 AB
+5 A -1 -1
+-1 -1 6 B
+4 A 7 BA
+8 A -1 -1
+-1 -1 9 B
+10 A -1 -1
+-1 -1 11 B
+1 A -1 -1
+
+*/
