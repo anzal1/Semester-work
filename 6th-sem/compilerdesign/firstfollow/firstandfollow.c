@@ -275,7 +275,7 @@ void Follow_Of(char Follow[100][100], char First[100][100], int original, char V
 
 void main(void)
 {
-    int N=0, i, j, k, z;
+    int N = 0, i, j, k, z;
     int Number_of_Productions = 0, Variable_Number;
     char Variable, Start_Variable = 'S', Production[100];
     char Variable_List[100];
@@ -303,7 +303,6 @@ void main(void)
         N++;
     }
 
-   
     printf("\n\n");
     DisplayTransitions(Variable_List, Corresponding_Number_of_Productions, N);
     printf("\n\n");
@@ -323,9 +322,21 @@ void main(void)
         printf("First(%c) -> ", Variable_List[i]);
         for (j = 0; j < strlen(First[i]); j++)
         {
-            printf("%c ", First[i][j]);
-            if (First[i][j] == '#')
-                Found[i] = -1;
+            if (Variable_List[i] == 'S')
+            {
+                if (First[i][j] != '#')
+                {
+                    printf("%c ", First[i][j]);
+                }
+                if (First[i][j] == '#')
+                    Found[i] = -1;
+            }
+            else
+            {
+                printf("%c ", First[i][j]);
+                if (First[i][j] == '#')
+                    Found[i] = -1;
+            }
         }
         printf("\n");
     }
