@@ -1,141 +1,112 @@
-#include<p89v51rx2.h>
+#include <LCD.h>
+sbit buzz = P0 ^ 3;
+unsigned int count = 0;
+unsigned char a[16];
+unsigned int f[20];
+void input()
+{
+	unsigned int val = 0;
+	if (INT0 == 0)
+		val += 8;
 
-sbit sw4 = P3^2;
-sbit sw3 = P3^3;
-sbit sw2 = P3^4;
-sbit sw1 = P3^5;
-sbit buzz= P0^3;
+	if (INT1 == 0)
+		val += 4;
 
-void delay(unsigned int n){
- unsigned int i;
-	unsigned int j;
-	for(i=0;i<1000;i++)
+	if (T0 == 0)
+		val += 2;
+
+	if (T1 == 0)
+		val += 1;
+	if (val != 0)
+		count = val;
+}
+
+int factors(int n)
+{
+	int j = 0, i = 1;
+	for (
+		i = 1; i <= n; i++)
 	{
-		for(j=0;j<=3*n;j++)
+		if (n % i == 0)
 		{
+			f[j] = i;
+			j++;
 		}
+	}
+	return j;
+}
+void intToChar(long n)
+{
+	int i = 0, j = 0;
+	for (i = 0; i < 16; i++)
+	{
+		a[i] = ' ';
+	}
+	i = 0;
+	while (n != 0)
+	{
+		a[i] = (n % 10) + '0';
+		i++;
+		n = n / 10;
+	}
+	i--;
+	while (j <= i)
+	{
+		char temp = a[i];
+		a[i] = a[j];
+		a[j] = temp;
+		i--;
+		j++;
 	}
 }
 
-void counter(unsigned int count)
+void dispnum(unsigned int number)
 {
-		int i=count,j;
-		while(i>=0){
-			j=i;
-			RD=!(j&1);
-			j>>=1;
-			WR=!(j&1);
-			j>>=1;
-			TxD =!(j&1);
-			j>>=1;
-			RxD=!(j&1);
-			delay(10);
-			i--;
-		}
+	int j = number;
+	RD = !(j & 1);
+	j >>= 1;
+	WR = !(j & 1);
+	j >>= 1;
+	TxD = !(j & 1);
+	j >>= 1;
+	RxD = !(j & 1);
+	delay(10);
 }
-	
-
 
 void main(void)
 {
-	sw1=1;
-	sw2=1;
-	sw3=1;
-	sw4=1;
-	buzz=1;
-	while(1)
+	int i = 0;
+	int c = 0;
+	buzz = 1;
+	LCD_INIT();
+
+	while (1)
 	{
-	if(sw4==1 && sw3==1 && sw2==1 && sw1==0) 
-	{
-		while(1)
+		input();
+		if (count == 0)
 		{
-			counter(1);
-			buzz=0;
-			delay(2);
-			buzz=1;
-			if(sw1 ==0 || sw2==0 || sw3==0 || sw4==0)
+			LCD_WRITE("Enter a number", 0, 0);
+		}
+		else
+		{
+			LCD_WRITE("Factors of ", 0, 0);
+			delay(20);
+			intToChar(count);
+			LCD_WRITE(a, 0, 8);
+			delay(20);
+
+			LCD_WRITE("are ", 1, 0);
+			c = factors(count);
+			for (k = 0; k < c; k++)
 			{
-			//buzz=1;	
-			break;
-			};
-			
+				intToChar(f[k]);
+				dispnum(f[k]);
+				LCD_WRITE(a, 1, 5);
+				buzz = 0;
+				delay(4000);
+				buzz = 1;
+			}
+			count = 0;
 		}
 	}
-	else if(sw4==1 && sw3==1 && sw2==0 && sw1==1)
-	{
-	
-		while(1)
-		{
-			counter(3);
-			buzz=0;
-			delay(1);
-			buzz=1;
-			counter(1);
-			buzz=0;
-			delay(1);
-			buzz=1;
-		 if(sw1 ==0 || sw2==0 || sw3==0 || sw4==0){
-		//	buzz=1;
-				break;
-			};
-		}
 }
-	 else if(sw4==1 && sw3==1 && sw2==0 && sw1==0)
-	{
-
-	while(1)
-		{
-			counter(7);
-			buzz=0;
-			delay(1);
-			buzz=1;
-			counter(3);
-			buzz=0;
-			delay(1);
-			buzz=1;
-			counter(1);
-			buzz=0;
-			delay(2);
-			buzz=1;
-			if(sw1 ==0 || sw2==0 || sw3==0 || sw4==0){
-		//		buzz=1;
-				break;
-			};
-		}
-		
-	}	
-
-	else if(sw4==1 && sw3==0 && sw2==1 && sw1==1)
-	{
-while(1)
-		{
-			counter(15);
-			buzz=0;
-			delay(1);
-			buzz=1;
-			counter(7);
-			buzz=0;
-			delay(1);
-			buzz=1;
-			counter(3);
-			buzz=0;
-			delay(1);
-			buzz=1;
-			counter(1);
-			buzz=0;
-			delay(2);
-			buzz=1;
-			 if(sw1 ==0 || sw2==0 || sw3==0 || sw4==0){ 
-			//	 buzz=1;
-				break;
-		 };
-		}
-}
-	else{
-	continue;
-	}
-
-}
-	}
-	
-

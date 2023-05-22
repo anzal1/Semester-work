@@ -1,0 +1,61 @@
+Rules after resolving ambiguity and Left Recursion: 
+E -> T E' 
+E' -> + T E' 
+E' -> Ɛ 
+F -> id 
+F -> ( E ) 
+T -> F T' 
+T' -> * F T' 
+T' -> Ɛ 
+
+First: 
+( -> ( 
+) -> ) 
+* -> * 
++ -> + 
+E -> id ( 
+E' -> + Ɛ 
+F -> id ( 
+T -> id ( 
+T' -> * Ɛ 
+id -> id 
+Ɛ -> Ɛ 
+
+Follow: 
+E -> $ ) 
+E' -> $ ) 
+F -> $ ) * + 
+T -> $ ) + 
+T' -> $ ) + 
+
+LL Analyzer Table:
+  |    $    |    (    |    )    |    *    |    +    |   id    |   Ɛ    
+----------------------------------------------------------------------
+E | error   |  T E'   | error   | error   | error   |  T E'   | error   
+E'|   Ɛ     | error   |   Ɛ     | error   | + T E'  | error   | error   
+F | error   | ( E )   | error   | error   | error   |   id    | error   
+T | error   |  F T'   | error   | error   | error   |  F T'   | error   
+T'|   Ɛ     | error   |   Ɛ     | * F T'  |   Ɛ     | error   | error   
+----------------------------------------------------------------------
+
+stack                                       string                                  Action
+E $                                id + id * id $                                      TE'
+T E' $                             id + id * id $                                      FT'
+F T' E' $                          id + id * id $                                       id
+id T' E' $                         id + id * id $                                    match
+T' E' $                               + id * id $                                       Ɛ
+Ɛ E' $                               + id * id $                                       Ɛ
+E' $                                  + id * id $                                     +TE'
++ T E' $                              + id * id $                                    match
+T E' $                                  id * id $                                      FT'
+F T' E' $                               id * id $                                       id
+id T' E' $                              id * id $                                    match
+T' E' $                                    * id $                                     *FT'
+* F T' E' $                                * id $                                    match
+F T' E' $                                    id $                                       id
+id T' E' $                                   id $                                    match
+T' E' $                                         $                                       Ɛ
+Ɛ E' $                                         $                                       Ɛ
+E' $                                            $                                       Ɛ
+Ɛ $                                            $                                       Ɛ
+$                                               $                                 Accepted
