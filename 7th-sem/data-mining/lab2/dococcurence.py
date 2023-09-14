@@ -9,7 +9,7 @@ def read_file(file):
         return f.read()
     
 def remove_stopwords(text):
-    stopwords = read_file('data-mining/similarobject/stopWords.txt').split('\n')
+    stopwords = read_file('data-mining/lab2/stopWords.txt').split('\n')
     return ' '.join([word for word in text.split() if word not in stopwords])
 
 def remove_punctuation(text):
@@ -34,7 +34,7 @@ def unique_words(documents):
     return list(unique)
 
 
-text=read_file('data-mining/similarobject/documents.txt')
+text=read_file('data-mining/lab2/documents.txt')
 documents =text.split('\n')
 documents = [clean_text(doc) for doc in documents]
 

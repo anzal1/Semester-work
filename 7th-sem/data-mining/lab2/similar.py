@@ -1,7 +1,7 @@
 # given n objects find and rank similar between them
 import pandas as pd 
 
-df=pd.read_csv('data-mining/similarobject/animal.txt')
+df=pd.read_csv('data-mining/lab2/animal.txt')
 print(df)
 
 # find similarity between objects  and print 10 most similar objects without using any library
