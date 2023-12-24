@@ -1,4 +1,4 @@
-#given five documents remove stock words and add freq of words in each document
+#given five documents remove stop words and add freq of words in each document
 
 import pandas as pd
 import numpy as np

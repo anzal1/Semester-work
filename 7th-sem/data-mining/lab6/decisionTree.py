@@ -147,3 +147,6 @@ if __name__ == "__main__":
 
     id3.print_dt()
 
+    print(f'Accuracy: {np.sum(y_test == y_pred) / len(y_test)}')
+
+
